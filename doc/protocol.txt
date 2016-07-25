@@ -439,21 +439,19 @@ The response is one of:
 The stats-job data is a YAML file representing a single dictionary of strings
 to scalars. It contains these keys:
 
- - "id" is the job id
+ - "id" ID ของงาน
 
- - "tube" is the name of the tube that contains this job
+ - "tube" ชื่อของท่อเก็บงาน
 
- - "state" is "ready" or "delayed" or "reserved" or "buried"
+ - "state" คือ "ready" หรือ "delayed" หรือ "reserved" หรือ "buried"
 
- - "pri" is the priority value set by the put, release, or bury commands.
+ - "pri" ลำดับความสำคัญ ถูกกำหนดจากคำสั่ง Put, release, หรือ bury
 
- - "age" is the time in seconds since the put command that created this job.
+ - "age" เวลาในหน่วยวินาที นับตั้งแต่ถูกสร้างขึ้นโดยคำสั่ง Put
 
- - "delay" is the integer number of seconds to wait before putting this job in
-   the ready queue.
+ - "delay" จำนวนวินาทีสำหรับรอก่อนที่ Put งานเข้าไปอยู่ในสถานะ Ready
 
- - "ttr" -- time to run -- is the integer number of seconds a worker is
-   allowed to run this job.
+ - "ttr" -- time to run -- จำนวนวินาทีที่ worker จะใช้ในการทำงานนี้ (ประเมินเวลาประมวลผลแต่ละงาน  -- ผู้แปล)
 
  - "time-left" is the number of seconds left until the server puts this job
    into the ready queue. This number is only meaningful if the job is
