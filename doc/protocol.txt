@@ -206,15 +206,25 @@ job is reserved for the client, the client has limited time to run (TTR) the
 job before the job times out. When the job times out, the server will put the
 job back into the ready queue. Both the TTR and the actual time left can be
 found in response to the stats-job command.
+คำสั่งนี้จะรีเทิร์นงานใหม่ที่เหมาะสม (สำหรับขณะนั้นๆ) ถ้าไม่พบงานใดๆ จะรอจนกว่าจะมีงานอื่นเข้ามา
+หลังจาก Client ได้รับงานไปแล้ว ก็จะมีเวลาในการประมวลผลงานนั้นๆ จำกัดตาม การตั้งค่า TTR
+ของงานนั้นๆ และจะหมดอายุ (Time out) ตามกำหนด ซึ่งหลังจากหมดอายุแล้ว Server จะทำการ Put
+งานนั้นๆ กลับคืนไปยัง `ready` state อีกครั้ง, ทั้ง TTR (Time to Run) และเวลาที่เหลืออยู่จริง
+สามารถดูได้จาก คำสั่ง  `stats-job`
 
 If more than one job is ready, beanstalkd will choose the one with the
 smallest priority value. Within each priority, it will choose the one that
 was received first.
+ถ้ามีงานที่อยู่ในสถานะ `ready` มากกว่าหนึ่งงาน Beanstalkd จะเลือกงานตามลำดับของ priority
+(น้อยไปหามาก) และหากมี priority เท่ากันหลายงาน จะเลือกจากงานที่ถูก put เข้ามาก่อน (FIFO)
 
 A timeout value of 0 will cause the server to immediately return either a
 response or TIMED_OUT.  A positive value of timeout will limit the amount of
 time the client will block on the reserve request until a job becomes
 available.
+ถ้าหากค่าที่กำหนดให้กับ `timeout` เป็น `0` server จะส่งงานที่มีอยู่หรืองานที่หมดอายุ  (หมดอายุการประมวลผล)
+กลับไปให้ทันที ถ้ากำหนดค่า `timeout` เป็นค่าบวก server จะหน่วงเวลาตามที่กำหนดจึงจะทำ
+การค้นหางานส่งกลับไปให้
 
 During the TTR of a reserved job, the last second is kept by the server as a
 safety margin, during which the client will not be made to wait for another
